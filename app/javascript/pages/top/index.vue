@@ -5,7 +5,6 @@
     <router-link to="/tasks">
         <button type=button>はじめる</button> 
     </router-link>
-    <footer>{{ footer }}</footer>
   </div>
 </template>
 
@@ -15,9 +14,8 @@ export default {
     return {
       title: "タスクを管理しよう！",
       message: "生活や仕事に関するタスクを見える化して抜け漏れを防ぎましょう。",
-      footer: "Copyright &copy; 2020 RUNTEQ",
     }
-  }
+  },
 }
 </script>
 
