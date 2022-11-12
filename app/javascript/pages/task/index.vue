@@ -15,21 +15,27 @@
 </template>
 
 <script>
-    const tasks = [
-        'スーパーに買い物に行く',
-        '子供の迎えに行く',
-        '新聞を解約する',
-        'ゴミ出しをする',
-    ]
-    export default {
-        data: function(){
-            return {
-               tasks, 
-            }
+export default {
+    data: function(){
+        return {
+           tasks: [],
         }
+    },
+    methods: {
+        getTasks: async function(){
+            try {
+                let response = await this.$axios.get('/api/tasks');
+                this.tasks = response.data.map(task => task.title);
+            } catch(error) {
+                console.log(error);
+            }
+        },
+    },
+    created: function(){
+        this.getTasks();
     }
+}
 </script>
-
 
 <style scoped>
 .card {
