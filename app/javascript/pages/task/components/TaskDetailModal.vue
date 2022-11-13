@@ -22,8 +22,14 @@
 export default {
     props: {
         task: {
-            type: Object,
-            required: true,
+            title: {
+                type: String,
+                required: true,
+            },
+            description: {
+                type: String,
+                required: true,
+            },
         }
     },
     methods: {
