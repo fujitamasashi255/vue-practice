@@ -41,7 +41,8 @@ export default {
         handleCreateTask: async function(){
             // POST送信
             try{
-                this.addTask(this.task);
+                console.log('createTask!!')
+                await this.addTask(this.task);
                 // モーダルを閉じる
                 this.handleCloseModal();
             } catch(error) {

@@ -15,34 +15,39 @@ const store = new Vuex.Store({
         restore(state, { tasks }){
             state.tasks = tasks;                
         },
-        addTask(state, { title, description }){
-            const newTask = {
-                title,
-                description,
-            };
-            state.tasks.push(newTask);
-        }
+        addTask(state, task){
+            state.tasks.push(task);
+            console.log(state.tasks);
+        },
     },
     actions: {
         async restore({ commit }){
             try{
                 let response = await axios.get('/api/tasks');
-                console.log(response.data);
                 commit('restore', { tasks: response.data });
             } catch(error) {
                 console.log(error); 
             }
         },
-        async addTask({ commit }, { title, description }){
+        async addTask({ commit }, task){
             try{
-                await axios.post('api/tasks', {
-                    title,
-                    description,
-                });
-                commit('addTask', { title, description })
+                const response = await axios.post('api/tasks', task);
+                commit('addTask', response.data);
             } catch(error) {
                 console.log(error);
             }
+        },
+        async updateTask({ dispatch }, task){
+            try{
+                const response = await axios.put(`api/tasks/${task.id}`, task);
+                dispatch('restore');
+            } catch(error){
+                console.log(error);
+            };
+        },
+        async deleteTask({ dispatch }, task){
+            const result = await axios.delete(`api/tasks/${task.id}`);
+            dispatch('restore');
         }
     },
 })

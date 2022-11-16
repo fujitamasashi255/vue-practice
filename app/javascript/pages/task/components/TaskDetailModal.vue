@@ -9,6 +9,8 @@
                     </div>
                     <div>
                         <span>{{ task.description }} </span>                    
+                        <button type="button" class="edit" v-on:click="handleTaskEdit">編集</button>
+                        <button type="button" class="delete" v-on:click="handleTaskDelete">削除</button>
                         <button type="button" class="close" v-on:click="handleCloseModal">閉じる</button>
                     </div>
                 </div>
@@ -30,11 +32,21 @@ export default {
                 type: String,
                 required: true,
             },
+            id: {
+                type: Number,
+                required: true,
+            }
         }
     },
     methods: {
         handleCloseModal: function(){
             this.$emit('close-modal') // $emitを使って親の@closeModalに設定されているメソッドを実行させることができる。スネークケースとキャメルケースの変換は自動で行ってくれる。
+        },
+        handleTaskEdit(){
+            this.$emit('task-edit');
+        },
+        handleTaskDelete(){
+            this.$emit('task-delete', this.task);
         },
     },
 }
