@@ -9,7 +9,9 @@ const store = new Vuex.Store({
         tasks: [],
     },
     getters: {
-        fetchTasks: (state) => state.tasks,
+        todoTasks: state => state.tasks.filter(function(task){ return task.status === 'todo' }),
+        doingTasks: state => state.tasks.filter(function(task){ return task.status === 'doing' }),
+        doneTasks: state => state.tasks.filter(function(task){ return task.status === 'done' }),
     },
     mutations: {
         restore(state, { tasks }){

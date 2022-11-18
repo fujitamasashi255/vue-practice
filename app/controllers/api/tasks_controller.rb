@@ -12,7 +12,6 @@ class Api::TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
-
     if @task.save
       render json: @task
     else
@@ -40,6 +39,6 @@ class Api::TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :description)
+    params.require(:task).permit(:title, :description, :status)
   end
 end

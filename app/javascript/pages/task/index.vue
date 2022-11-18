@@ -1,32 +1,48 @@
 <template>
-    <div id="tasks">
-        <div class="card">
-            <div class="card-header">
-                TODO
-            </div>
-            <ul class="list-group list-group-flush">
-                <li v-for="task in tasks" :key="task.id" :id="'task-' + task.id" @click.self="handleShowTaskDetailModal(task)">
-                    {{ task.title }}
-                </li>
-                <button @click="handleShowTaskCreateModal()">タスクを追加</button>
-            </ul>
-            <transition name="fade">
-                <task_detail_modal :task='taskDetail' @close-modal="handleCloseTaskDetailModal" @task-edit="handleShowTaskEditModal" @task-delete="handleTaskDelete" v-if="isVisibleTaskDetailModal"/>
-                <task_create_modal @close-modal="handleCloseTaskCreateModal" v-if="isVisibleTaskCreateModal"/>
-                <task_edit_modal :task="taskDetail" @close-modal="handleCloseTaskEditModal" v-if="isVisibleTaskEditModal"/>
-            </transition>
-        </div>
-        <router-link to="/">
-            <button type=button>戻る</button> 
-        </router-link>
+<div>
+    <div id="tasks" >
+        <task-list :tasks="todoTasks" :tag-id="todoList" @show-task-detail-modal="handleShowTaskDetailModal">
+            <template v-slot:header>
+                <div class="h4">
+                    TODO
+                </div>
+            </template>
+        </task-list>
+
+        <task-list :tasks="doingTasks" :tag-id="doingList" @show-task-detail-modal="handleShowTaskDetailModal">
+            <template v-slot:header>
+                <div class="h4">
+                    DOING
+                </div>
+            </template>
+        </task-list>
+
+        <task-list :tasks="doneTasks" :tag-id="doneList" @show-task-detail-modal="handleShowTaskDetailModal">
+            <template v-slot:header>
+                <div class="h4">
+                    DONE
+                </div>
+            </template>
+        </task-list>
     </div>
+    <transition name="fade">
+      <task-detail-modal :task='taskDetail' @close-modal="handleCloseTaskDetailModal" @task-edit="handleShowTaskEditModal" @task-delete="handleTaskDelete" v-if="isVisibleTaskDetailModal"/>
+      <task-create-modal @close-modal="handleCloseTaskCreateModal" v-if="isVisibleTaskCreateModal"/>
+      <task-edit-modal :task="taskDetail" @close-modal="handleCloseTaskEditModal" v-if="isVisibleTaskEditModal"/>
+    </transition>
+    <button @click="handleShowTaskCreateModal()">タスクを追加</button>
+    <router-link to="/">
+        <button type=button>戻る</button> 
+    </router-link>
+</div>
 </template>
 
 <script>
 import TaskDetailModal from "./components/TaskDetailModal.vue"
 import TaskCreateModal from "./components/TaskCreateModal.vue"
 import TaskEditModal from "./components/TaskEditModal.vue"
-import { mapGetters, mapActions } from "vuex";
+import TaskList from "./components/TaskList.vue"
+import { mapGetters, mapActions } from "vuex"
 
 export default {
     data: function(){
@@ -35,15 +51,16 @@ export default {
            isVisibleTaskCreateModal: false,
            isVisibleTaskEditModal: false,
            taskDetail: {},
+           todoList: 'todo-list',
+           doingList: 'doing-list',
+           doneList: 'done-list',
         }
     },
-    computed: mapGetters({
-        tasks: 'fetchTasks'
-    }),
     components: {
-        'task_detail_modal': TaskDetailModal,
-        'task_create_modal': TaskCreateModal,
-        'task_edit_modal': TaskEditModal,
+        'task-detail-modal': TaskDetailModal,
+        'task-create-modal': TaskCreateModal,
+        'task-edit-modal': TaskEditModal,
+        'task-list': TaskList,
     },
     methods: {
         handleShowTaskDetailModal: function(task){
@@ -73,23 +90,28 @@ export default {
             this.isVisibleTaskDetailModal = false;
             this.taskDetail = {};
         },
-        ...mapActions(['restore', 'deleteTask']),
+        ...mapActions(['deleteTask']),
+        ...mapActions(['restore'])
+    },
+    computed: { 
+        ...mapGetters(['todoTasks', 'doingTasks', 'doneTasks']),
     },
     created: function(){
         this.restore();
-    }
+    },
 }
+
 </script>
 
 <style scoped>
-.card {
-  width: 18rem;
-}
-
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+#tasks {
+    display:flex;
 }
 </style>
