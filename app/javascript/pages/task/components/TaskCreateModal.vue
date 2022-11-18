@@ -13,8 +13,8 @@
                             <input type="text" name="説明文" v-model="task.description"/>
                         </div>
                         <div>
-                            <label for="status">ステータス</label>
-                            <select for="status" name="status" v-model="task.status">
+                            <label for="ステータス">ステータス</label>
+                            <select for="ステータス" name="ステータス" v-model="task.status">
                                 <option value="todo">TODO</option>
                                 <option value="doing">DOING</option>
                                 <option value="done">DONE</option>
