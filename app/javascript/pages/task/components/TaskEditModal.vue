@@ -12,6 +12,14 @@
                             <label>説明文</label>
                             <input type="text" name="説明文" @input="handleTaskDescriptionInput" :value="task.description" />
                         </div>
+                        <div>
+                            <label for="ステータス">ステータス</label>
+                            <select for="ステータス" name="ステータス" @change="handleTaskStatusInput" :value="task.status">
+                                <option value="todo">TODO</option>
+                                <option value="doing">DOING</option>
+                                <option value="done">DONE</option>
+                            </select>
+                        </div>
                         <button type="button" @click.prevent="handleUpdateTask">更新</button>
                         <button type="button" class="close" v-on:click="handleCloseModal">閉じる</button>
                     </div>
@@ -30,6 +38,7 @@ export default {
         return {
             newTaskTitle: this.task.title,
             newTaskDescription: this.task.description,
+            newTaskStatus: this.task.status,
         }
     },
     props: {
@@ -46,6 +55,10 @@ export default {
                 type: Number,
                 required: true,
             },
+            status: {
+                type: String,
+                required: true,
+            },
         },
     },
     methods: {
@@ -54,6 +67,9 @@ export default {
         },
         handleTaskDescriptionInput: function($event){
             this.newTaskDescription = $event.target.value;
+        },
+        handleTaskStatusInput: function($event){
+            this.newTaskStatus = $event.target.value;
         },
         handleCloseModal: function(){
             this.$emit('close-modal')
@@ -64,7 +80,9 @@ export default {
                     title: this.newTaskTitle,
                     description: this.newTaskDescription,
                     id: this.task.id,
+                    status: this.newTaskStatus,
                 };
+                
                 this.updateTask(newTask);
                 // モーダルを閉じる
                 this.handleCloseModal();

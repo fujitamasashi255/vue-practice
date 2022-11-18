@@ -19,7 +19,6 @@ const store = new Vuex.Store({
         },
         addTask(state, task){
             state.tasks.push(task);
-            console.log(state.tasks);
         },
     },
     actions: {
