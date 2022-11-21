@@ -1,13 +1,13 @@
 <template>
-<div>
-  {{ task.title }}
-</div>
+  <div>
+    {{ task.title }}
+  </div>
 </template>
 
-<script>
-export default {
-  props: {
+<script> export default { props: {
     task: {
+      default: null,
+      type: Object,
       title: {
         type: String,
         required: true,

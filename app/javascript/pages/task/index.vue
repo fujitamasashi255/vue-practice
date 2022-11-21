@@ -1,40 +1,69 @@
 <template>
-<div>
-    <div id="tasks" >
-        <task-list :tasks="todoTasks" :tag-id="todoList" @show-task-detail-modal="handleShowTaskDetailModal">
-            <template v-slot:header>
-                <div class="h4">
-                    TODO
-                </div>
-            </template>
-        </task-list>
+  <div>
+    <div id="tasks">
+      <task-list
+        :tasks="todoTasks"
+        :tag-id="todoList"
+        @show-task-detail-modal="handleShowTaskDetailModal"
+      >
+        <template v-slot:header>
+          <div class="h4">
+            TODO
+          </div>
+        </template>
+      </task-list>
 
-        <task-list :tasks="doingTasks" :tag-id="doingList" @show-task-detail-modal="handleShowTaskDetailModal">
-            <template v-slot:header>
-                <div class="h4">
-                    DOING
-                </div>
-            </template>
-        </task-list>
+      <task-list
+        :tasks="doingTasks"
+        :tag-id="doingList"
+        @show-task-detail-modal="handleShowTaskDetailModal"
+      >
+        <template v-slot:header>
+          <div class="h4">
+            DOING
+          </div>
+        </template>
+      </task-list>
 
-        <task-list :tasks="doneTasks" :tag-id="doneList" @show-task-detail-modal="handleShowTaskDetailModal">
-            <template v-slot:header>
-                <div class="h4">
-                    DONE
-                </div>
-            </template>
-        </task-list>
+      <task-list
+        :tasks="doneTasks"
+        :tag-id="doneList"
+        @show-task-detail-modal="handleShowTaskDetailModal"
+      >
+        <template v-slot:header>
+          <div class="h4">
+            DONE
+          </div>
+        </template>
+      </task-list>
     </div>
     <transition name="fade">
-      <task-detail-modal :task='taskDetail' @close-modal="handleCloseTaskDetailModal" @task-edit="handleShowTaskEditModal" @task-delete="handleTaskDelete" v-if="isVisibleTaskDetailModal"/>
-      <task-create-modal @close-modal="handleCloseTaskCreateModal" v-if="isVisibleTaskCreateModal"/>
-      <task-edit-modal :task="taskDetail" @close-modal="handleCloseTaskEditModal" v-if="isVisibleTaskEditModal"/>
+      <task-detail-modal
+        v-if="isVisibleTaskDetailModal"
+        :task="taskDetail"
+        @close-modal="handleCloseTaskDetailModal"
+        @task-edit="handleShowTaskEditModal"
+        @task-delete="handleTaskDelete"
+      />
+      <task-create-modal
+        v-if="isVisibleTaskCreateModal"
+        @close-modal="handleCloseTaskCreateModal"
+      />
+      <task-edit-modal
+        v-if="isVisibleTaskEditModal"
+        :task="taskDetail"
+        @close-modal="handleCloseTaskEditModal"
+      />
     </transition>
-    <button @click="handleShowTaskCreateModal()">タスクを追加</button>
+    <button @click="handleShowTaskCreateModal()">
+      タスクを追加
+    </button>
     <router-link to="/">
-        <button type=button>戻る</button> 
+      <button type="button">
+        戻る
+      </button> 
     </router-link>
-</div>
+  </div>
 </template>
 
 <script>
@@ -45,6 +74,12 @@ import TaskList from "./components/TaskList.vue"
 import { mapGetters, mapActions } from "vuex"
 
 export default {
+    components: {
+        'task-detail-modal': TaskDetailModal,
+        'task-create-modal': TaskCreateModal,
+        'task-edit-modal': TaskEditModal,
+        'task-list': TaskList,
+    },
     data: function(){
         return {
            isVisibleTaskDetailModal: false,
@@ -56,11 +91,11 @@ export default {
            doneList: 'done-list',
         }
     },
-    components: {
-        'task-detail-modal': TaskDetailModal,
-        'task-create-modal': TaskCreateModal,
-        'task-edit-modal': TaskEditModal,
-        'task-list': TaskList,
+    computed: { 
+        ...mapGetters(['todoTasks', 'doingTasks', 'doneTasks']),
+    },
+    created: function(){
+        this.restore();
     },
     methods: {
         handleShowTaskDetailModal: function(task){
@@ -92,12 +127,6 @@ export default {
         },
         ...mapActions(['deleteTask']),
         ...mapActions(['restore'])
-    },
-    computed: { 
-        ...mapGetters(['todoTasks', 'doingTasks', 'doneTasks']),
-    },
-    created: function(){
-        this.restore();
     },
 }
 

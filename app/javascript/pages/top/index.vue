@@ -3,7 +3,9 @@
     <h1>{{ title }}</h1>
     <p>{{ message }}</p>
     <router-link to="/tasks">
-        <button type=button>はじめる</button> 
+      <button type="button">
+        はじめる
+      </button> 
     </router-link>
   </div>
 </template>

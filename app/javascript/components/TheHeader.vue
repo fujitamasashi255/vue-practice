@@ -1,5 +1,5 @@
 <template>
-    <header>{{ header }}</header>
+  <header>{{ header }}</header>
 </template>
 
 <script>

@@ -1,29 +1,60 @@
 <template>
-    <div :id="'task-detail-modal-' + task.id">
-        <div class="modal" v-on:click.self="handleCloseModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">{{ task.title }}</h4>
-                        <button type="button" class="close" v-on:click="handleCloseModal">×</button>
-                    </div>
-                    <div>
-                        <span>{{ task.description }} </span>                    
-                        <button type="button" class="edit" v-on:click="handleTaskEdit">編集</button>
-                        <button type="button" class="delete" v-on:click="handleTaskDelete">削除</button>
-                        <button type="button" class="close" v-on:click="handleCloseModal">閉じる</button>
-                    </div>
-                </div>
-            </div>
+  <div :id="'task-detail-modal-' + task.id">
+    <div
+      class="modal"
+      @click.self="handleCloseModal"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">
+              {{ task.title }}
+            </h4>
+            <button
+              type="button"
+              class="close"
+              @click="handleCloseModal"
+            >
+              ×
+            </button>
+          </div>
+          <div>
+            <span>{{ task.description }} </span>                    
+            <button
+              type="button"
+              class="edit"
+              @click="handleTaskEdit"
+            >
+              編集
+            </button>
+            <button
+              type="button"
+              class="delete"
+              @click="handleTaskDelete"
+            >
+              削除
+            </button>
+            <button
+              type="button"
+              class="close"
+              @click="handleCloseModal"
+            >
+              閉じる
+            </button>
+          </div>
         </div>
-        <div class="modal-backdrop show"></div>
+      </div>
     </div>
+    <div class="modal-backdrop show" />
+  </div>
 </template>
 
 <script>
 export default {
     props: {
         task: {
+            default: null,
+            type: Object,
             title: {
                 type: String,
                 required: true,

@@ -9,7 +9,7 @@ import Vue from 'vue'
 import App from '../app.vue'
 import router from '../router/index.js'
 import axios from 'axios';
-import store from '../store/index.js'
+import store from '../store/modules/tasks.js'
 
 import 'bootstrap/dist/css/bootstrap.css'
 

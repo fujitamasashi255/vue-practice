@@ -1,13 +1,23 @@
 <template>
-  <div :id="tagId" class="card">
-      <div class="card-header">
-          <slot name="header">ヘッダーなし</slot>
-      </div>
-      <ul class="list-group list-group-flush">
-          <li v-for="task in tasks" :key="task.id" :id="'task-' + task.id" @click="handleShowTaskDetailModal(task)">
-              <task-item :task="task"></task-item>
-          </li>
-      </ul>
+  <div
+    :id="tagId"
+    class="card"
+  >
+    <div class="card-header">
+      <slot name="header">
+        ヘッダーなし
+      </slot>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li
+        v-for="task in tasks"
+        :id="'task-' + task.id"
+        :key="task.id"
+        @click="handleShowTaskDetailModal(task)"
+      >
+        <task-item :task="task" />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -15,8 +25,13 @@
 import TaskItem from "./TaskItem.vue"
 
 export default {
+    components: {
+        'task-item': TaskItem,
+    },
     props: {
       tasks: {
+        default: null,
+        type: Array,
         task: {
           title: {
             type: String,
@@ -40,9 +55,6 @@ export default {
         type: String,
         required: true,
       },
-    },
-    components: {
-        'task-item': TaskItem,
     },
     methods: {
       handleShowTaskDetailModal(task){
