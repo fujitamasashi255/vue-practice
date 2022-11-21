@@ -127,7 +127,7 @@ export default {
                console.log(error);
             }
         },
-        ...mapActions(['updateTask']),
+        ...mapActions('tasks', ['updateTask']),
     },
 }
 </script>

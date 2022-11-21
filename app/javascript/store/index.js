@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import TasksStore from 'modules/tasks.js'
-import UsersStore from 'modules/users.js'
+import TasksStore from './modules/tasks.js'
+import UsersStore from './modules/users.js'
 
 Vue.use(Vuex);
 

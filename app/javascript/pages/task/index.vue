@@ -92,7 +92,7 @@ export default {
         }
     },
     computed: { 
-        ...mapGetters(['todoTasks', 'doingTasks', 'doneTasks']),
+        ...mapGetters('tasks', ['todoTasks', 'doingTasks', 'doneTasks']),
     },
     created: function(){
         this.restore();
@@ -125,8 +125,7 @@ export default {
             this.isVisibleTaskDetailModal = false;
             this.taskDetail = {};
         },
-        ...mapActions(['deleteTask']),
-        ...mapActions(['restore'])
+        ...mapActions('tasks', ['deleteTask', 'restore']),
     },
 }
 
