@@ -90,7 +90,7 @@ export default {
                console.log(error);
             }
         },
-        ...mapActions(['tasks', 'addTask']),
+        ...mapActions('tasks', ['addTask']),
     },
 }
 </script>
