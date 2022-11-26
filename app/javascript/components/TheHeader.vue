@@ -1,7 +1,7 @@
 <template>
     <header>
         {{ header }}
-        <a v-if="isLoggedIn" @click.prevent="logout">ログアウト</a>
+        <a v-if="isLoggedIn" @click.prevent="logout" href="#">ログアウト</a>
         <router-link to="/register" v-if="!isLoggedIn">ユーザー登録</router-link>
         <router-link to="/login" v-if="!isLoggedIn">ログイン</router-link>
     </header>
