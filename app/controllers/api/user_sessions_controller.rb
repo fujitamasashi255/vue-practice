@@ -3,7 +3,7 @@ class Api::UserSessionsController < ApplicationController
     user = login(user_sessions_params[:email], user_sessions_params[:password])
     if user
       # JWTを返す
-      jwt = JWT.encode({ user_id: user.id, exp: login_token_expire_at }, Rails.application.credentials.secret_key_base)
+      jwt = JWT.encode({ user_id: user.id, exp: login_token_expire_at }, Rails.application.secrets.secret_key_base)
       response = { token: jwt }
       render json: response
     else

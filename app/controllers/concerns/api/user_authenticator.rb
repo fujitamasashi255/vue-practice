@@ -20,7 +20,7 @@ module Api
       if token == 'null'
         nil
       else
-        decoded_token = JWT.decode(token, Rails.application.credentials.secret_key_base)
+        decoded_token = JWT.decode(token, Rails.application.secrets.secret_key_base)
         decoded_token[0]['user_id']
       end
     rescue JWT::ExpiredSignature
