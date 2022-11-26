@@ -1,5 +1,8 @@
 class Api::TasksController < ApplicationController
+  include Api::UserAuthenticator
+
   before_action :set_task, only: %i[show update destroy]
+  before_action :authenticate!
 
   def index
     @tasks = Task.all
@@ -11,7 +14,7 @@ class Api::TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
     if @task.save
       render json: @task
     else

@@ -20,20 +20,22 @@
           </div>
           <div>
             <span>{{ task.description }} </span>                    
-            <button
+            <div v-if="isBelongsToUser">
+              <button
               type="button"
               class="edit"
               @click="handleTaskEdit"
-            >
+              >
               編集
-            </button>
-            <button
+              </button>
+              <button
               type="button"
               class="delete"
               @click="handleTaskDelete"
-            >
+              >
               削除
-            </button>
+              </button>
+            </div>
             <button
               type="button"
               class="close"
@@ -50,6 +52,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
     props: {
         task: {
@@ -66,8 +70,20 @@ export default {
             id: {
                 type: Number,
                 required: true,
-            }
+            },
+            user_id: {
+              type: Number,
+              required: true,
+            },
         }
+    },
+    computed: {
+      ...mapState('users', ['user']),
+      isBelongsToUser(){
+        console.log(this.task)
+        console.log(this.user)
+        return this.task.user_id === this.user.id
+      },
     },
     methods: {
         handleCloseModal: function(){

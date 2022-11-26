@@ -22,34 +22,35 @@ const TasksStore = {
         },
     },
     actions: {
-        async restore({ commit }){
+        async restore({ commit, rootGetters }){
             try{
-                let response = await axios.get('/api/tasks');
+                // console.log(axios.defaults.headers.common['Authorization'])
+                let response = await axios.get('/api/tasks', rootGetters.axiosOption);
                 commit('restore', { tasks: response.data });
             } catch(error) {
                 console.log(error); 
             }
         },
-        async addTask({ commit }, task){
+        async addTask({ commit, rootGetters }, task){
             try{
-                const response = await axios.post('api/tasks', task);
+                const response = await axios.post('api/tasks', task, rootGetters.axiosOption);
                 commit('addTask', response.data);
             } catch(error) {
                 console.log(error);
             }
         },
-        async updateTask({ dispatch }, task){
+        async updateTask({ dispatch, rootGetters }, task){
             try{
-                const response = await axios.put(`api/tasks/${task.id}`, task);
+                const response = await axios.put(`api/tasks/${task.id}`, task, rootGetters.axiosOption);
                 dispatch('restore');
             } catch(error){
                 console.log(error);
             };
         },
-        async deleteTask({ dispatch }, task){
-            const result = await axios.delete(`api/tasks/${task.id}`);
+        async deleteTask({ dispatch, rootGetters }, task){
+            const result = await axios.delete(`api/tasks/${task.id}`, rootGetters.axiosOption);
             dispatch('restore');
-        }
+        },
     },
 }
 

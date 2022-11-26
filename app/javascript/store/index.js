@@ -15,6 +15,23 @@ const store = new Vuex.Store({
       namespaced: true,
       ...UsersStore,
     }
+  },
+  state: {
+    token: null,
+  },
+  getters: {
+    axiosOption(state){
+      return { 
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        }
+      }
+    },
+  },
+  actions: {
+    async setTokenToLocalStorage({ state }){
+      state.token = await localStorage.getItem("token")
+    },
   }
 })
 
