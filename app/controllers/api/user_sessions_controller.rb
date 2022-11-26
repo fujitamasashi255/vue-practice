@@ -11,9 +11,8 @@ class Api::UserSessionsController < ApplicationController
     end
   end
 
-  def destroy
-  end
-  
+  def destroy; end
+
   private
 
   def login_token_expire_at

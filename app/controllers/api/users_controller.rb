@@ -10,7 +10,7 @@ class Api::UsersController < ApplicationController
       head 400
     end
   end
-  
+
   def me
     render json: current_user
   end
