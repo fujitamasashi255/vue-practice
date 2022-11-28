@@ -80,7 +80,7 @@ extend('required', {
 
 extend('max', {
   ...max,
-  message: `{_field_}は{length}文字以内で入力してください`,
+  message: `{_field_}は{length}文字以下で入力してください`,
 })
 
 export default {
