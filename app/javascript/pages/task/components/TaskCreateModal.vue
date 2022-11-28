@@ -38,6 +38,7 @@
                     for="ステータス"
                     name="ステータス"
                   >
+                    <option value="" selected></option>
                     <option value="todo">
                       TODO
                     </option>
@@ -93,7 +94,7 @@ export default {
             task: {
                 title: '',
                 description: '',
-                status: 'todo',
+                status: '',
             },
         }
     },
