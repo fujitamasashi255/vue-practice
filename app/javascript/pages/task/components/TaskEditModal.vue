@@ -6,58 +6,61 @@
     >
       <div class="modal-dialog">
         <div class="modal-content">
-          <div>
-            <div>
-              <label>タイトル</label>
-              <input
-                type="text"
-                name="タイトル"
-                :value="task.title"
-                @input="handleTaskTitleInput"
-              >
-            </div>
-            <div>
-              <label>説明文</label>
-              <input
-                type="text"
-                name="説明文"
-                :value="task.description"
-                @input="handleTaskDescriptionInput"
-              >
-            </div>
-            <div>
-              <label for="ステータス">ステータス</label>
-              <select
-                for="ステータス"
-                name="ステータス"
-                :value="task.status"
-                @change="handleTaskStatusInput"
-              >
-                <option value="todo">
-                  TODO
-                </option>
-                <option value="doing">
-                  DOING
-                </option>
-                <option value="done">
-                  DONE
-                </option>
-              </select>
-            </div>
-            <button
-              type="button"
-              @click.prevent="handleUpdateTask"
-            >
-              更新
-            </button>
-            <button
-              type="button"
-              class="close"
-              @click="handleCloseModal"
-            >
-              閉じる
-            </button>
-          </div>
+          <ValidationObserver v-slot="{ handleSubmit }">
+            <form id="task-edit-form" @submit.prevent="handleSubmit(onSubmit)">
+              <div>
+                <label>タイトル</label>
+                <ValidationProvider name="タイトル" rules="required|max:50" v-slot="{ errors }">
+                  <input
+                    type="text"
+                    name="タイトル"
+                    v-model="newTaskTitle"
+                    @input="handleTaskTitleInput"
+                  >
+                  <span class="error-message">{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+              <div>
+                <label>説明文</label>
+                <ValidationProvider name="説明文" rules="max:500" v-slot="{ errors }">
+                  <input
+                    type="text"
+                    name="説明文"
+                    v-model="newTaskDescription"
+                    @input="handleTaskDescriptionInput"
+                  >
+                  <span class="error-message">{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+              <div>
+                <label for="ステータス">ステータス</label>
+                <select
+                  for="ステータス"
+                  name="ステータス"
+                  v-model="newTaskStatus"
+                  @change="handleTaskStatusInput"
+                >
+                  <option value="todo">
+                    TODO
+                  </option>
+                  <option value="doing">
+                    DOING
+                  </option>
+                  <option value="done">
+                    DONE
+                  </option>
+                </select>
+              </div>
+              <button type="submit">更新</button>
+            </form>
+          </ValidationObserver>
+          <button
+            type="button"
+            class="close"
+            @click="handleCloseModal"
+          >
+            閉じる
+          </button>
         </div>
       </div>
     </div>
@@ -67,8 +70,24 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { required, max } from 'vee-validate/dist/rules';
+
+extend('required', {
+  ...required,
+  message: `{_field_}は必須項目です`,
+})
+
+extend('max', {
+  ...max,
+  message: `{_field_}は{length}文字以内で入力してください`,
+})
 
 export default {
+    components: {
+      ValidationProvider,
+      ValidationObserver,
+    },
     props: {
         task: {
             default: null,
@@ -128,6 +147,9 @@ export default {
             }
         },
         ...mapActions('tasks', ['updateTask']),
+        onSubmit(){
+          this.handleUpdateTask()
+        },
     },
 }
 </script>
@@ -135,5 +157,9 @@ export default {
 <style scoped>
 .modal {
   display: block;
+}
+
+.error-message {
+  color: red;
 }
 </style>
