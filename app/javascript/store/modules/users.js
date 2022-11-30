@@ -17,7 +17,7 @@ const UsersStore = {
     mutations: {
     },
     actions: {
-        async createUser({ commit }, user_params){
+        async createUser(user_params){
             const request = { user: user_params }
             try{
                 await axios.post('api/users', request)
@@ -48,6 +48,15 @@ const UsersStore = {
             await ctx.dispatch('setTokenToLocalStorage', null, { root: true })
             const response = await axios.get(`api/user`, ctx.rootGetters.axiosOption)
             ctx.state.user = response.data
+        },
+        async updateUser(ctx, formData){
+            try{
+                await axios.put(`api/users/${ctx.state.user.id}`, formData, ctx.rootGetters.axiosOption)
+                // 登録完了後ログインページへ遷移
+                router.push('/tasks')
+            } catch(error){
+                console.log(error)
+            }
         },
     },
 }

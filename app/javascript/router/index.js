@@ -4,7 +4,9 @@ import Index from "../pages/top/index.vue"
 import Tasks from "../pages/task/index.vue"
 import Register from "../pages/register/index.vue"
 import Login from "../pages/login/index.vue"
+import Profile from "../pages/profile/index.vue"
 import store from "../store/index"
+
 
 Vue.use(VueRouter)
 
@@ -29,6 +31,12 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login,
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: { requiresLogin: true }
     },
 ]
 

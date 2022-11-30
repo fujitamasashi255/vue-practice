@@ -71,24 +71,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, max } from 'vee-validate/dist/rules';
-
-extend('required', {
-  ...required,
-  message: `{_field_}は必須項目です`,
-})
-
-extend('max', {
-  ...max,
-  message: `{_field_}は{length}文字以下で入力してください`,
-})
 
 export default {
-    components: {
-      ValidationProvider,
-      ValidationObserver,
-    },
     data: function(){
         return {
             task: {

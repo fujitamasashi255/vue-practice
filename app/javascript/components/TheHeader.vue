@@ -1,14 +1,20 @@
 <template>
     <header>
         {{ header }}
-        <a v-if="isLoggedIn" @click.prevent="logout" href="#">ログアウト</a>
-        <router-link to="/register" v-if="!isLoggedIn">ユーザー登録</router-link>
-        <router-link to="/login" v-if="!isLoggedIn">ログイン</router-link>
+        <template v-if="isLoggedIn">
+            <a @click.prevent="logout" href="#">ログアウト</a>
+            <img :src="user.avatar_url" width="100" height="100">
+            <router-link to="/profile">プロフィール</router-link>
+        </template>
+        <template v-else>
+            <router-link to="/register">ユーザー登録</router-link>
+            <router-link to="/login">ログイン</router-link>
+        </template>
     </header>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
     data: function(){
@@ -17,7 +23,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('users', ['isLoggedIn'])
+        ...mapGetters('users', ['isLoggedIn']),
+        ...mapState('users', ['user'])
     },
     methods: {
         ...mapActions('users', ['logout']),

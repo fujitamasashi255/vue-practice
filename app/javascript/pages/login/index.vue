@@ -27,29 +27,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, email, min } from 'vee-validate/dist/rules';
-
-extend('email', {
-  ...email,
-  message: 'メールアドレスの形式で入力してください',
-});
-
-extend('required', {
-  ...required,
-  message: `{_field_}は必須項目です`
-});
-
-extend('min', {
-  ...min,
-  message: `{_field_}は{length}文字以上で入力してください`,
-});
 
 export default {
-  components: {
-    ValidationProvider,
-    ValidationObserver,
-  },
   data: function(){
     return {
       user: {
