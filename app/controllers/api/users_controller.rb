@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
   include Api::UserAuthenticator
 
-  before_action :authenticate!, only: %i[create update]
+  before_action :authenticate!, only: %i[update]
 
   def create
     if User.create(user_params)
@@ -10,7 +10,7 @@ class Api::UsersController < ApplicationController
       head 400
     end
   end
-  
+
   def update
     if current_user.update(user_params)
       head 200

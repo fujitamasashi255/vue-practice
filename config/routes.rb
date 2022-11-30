@@ -8,6 +8,6 @@ Rails.application.routes.draw do
     post 'logout' => 'user_sessions#destroy', :as => :logout
   end
   get '*path', to: 'home#index', constraints: lambda { |req|
-  req.path.exclude? 'rails/active_storage'
-}
+    req.path.exclude? 'rails/active_storage'
+  }
 end

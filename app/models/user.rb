@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   has_many :tasks, dependent: :destroy
   has_one_attached :avatar
-  
+
   def avatar_url
     avatar.attached? ? Rails.application.routes.url_helpers.rails_blob_path(avatar, only_path: true) : nil
   end
