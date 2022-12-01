@@ -15,7 +15,7 @@ const TasksStore = {
     },
     mutations: {
         restore(state, { tasks }){
-            state.tasks = tasks;                
+            state.tasks = tasks;
         },
         addTask(state, task){
             state.tasks.push(task);

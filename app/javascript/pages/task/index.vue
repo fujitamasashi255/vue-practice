@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TaskSearchForm @searchTasks="filterTasks" />
     <div id="tasks">
       <task-list
         :tasks="todoTasks"
@@ -71,7 +72,8 @@ import TaskDetailModal from "./components/TaskDetailModal.vue"
 import TaskCreateModal from "./components/TaskCreateModal.vue"
 import TaskEditModal from "./components/TaskEditModal.vue"
 import TaskList from "./components/TaskList.vue"
-import { mapGetters, mapActions } from "vuex"
+import TaskSearchForm from "./components/TaskSearchForm.vue"
+import { mapGetters, mapActions, mapState, mapMutations } from "vuex"
 
 export default {
     components: {
@@ -79,6 +81,7 @@ export default {
         'task-create-modal': TaskCreateModal,
         'task-edit-modal': TaskEditModal,
         'task-list': TaskList,
+        'TaskSearchForm': TaskSearchForm,
     },
     data: function(){
         return {
@@ -89,13 +92,16 @@ export default {
            todoList: 'todo-list',
            doingList: 'doing-list',
            doneList: 'done-list',
+           orgTasks: [],
         }
     },
     computed: { 
+        ...mapState('tasks', ['tasks']),
         ...mapGetters('tasks', ['todoTasks', 'doingTasks', 'doneTasks']),
     },
-    created: function(){
-        this.restore();
+    created: async function(){
+        await this.restore();
+        this.orgTasks = [...this.tasks]
     },
     methods: {
         handleShowTaskDetailModal: function(task){
@@ -125,7 +131,14 @@ export default {
             this.isVisibleTaskDetailModal = false;
             this.taskDetail = {};
         },
+        ...mapMutations('tasks', {setTasks: 'restore'}),
         ...mapActions('tasks', ['deleteTask', 'restore']),
+        filteredTasksByTitle(title){
+          return this.orgTasks.filter(task => task.title.indexOf(title) >= 0)
+        },
+        filterTasks(searchWord){
+          this.setTasks({ tasks: this.filteredTasksByTitle(searchWord) })
+        },
     },
 }
 
