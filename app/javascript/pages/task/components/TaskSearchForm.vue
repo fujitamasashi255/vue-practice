@@ -1,7 +1,9 @@
 <template>
   <div>
-    <p>絞り込み</p>
-    <input type="text" id="search-form" v-model="searchTask" @input="this.inputHandler" />
+    <form id="search-form">
+      <label for="title">絞り込み</label>
+      <input type="text" id="title" v-model="searchTask" @input="this.inputHandler" />
+    </form>
   </div>
 </template>
 
